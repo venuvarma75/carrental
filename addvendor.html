@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome, Vendor!</h1>
+    <div class="form-container">
+      <h2>Add New Car</h2>
+      <form id="addCarForm">
+        <input type="text" id="carName" placeholder="Car Name" required>
+        <input type="number" id="carPrice" placeholder="Price" required>
+        <input type="url" id="carImage" placeholder="Image URL" required>
+        <button type="submit">Add Car</button>
+      </form>
+    </div>
+  
+    <h2>Your Cars</h2>
+    <div id="carList"></div>
+
+    <script>
+        document.getElementById('addCarForm')?.addEventListener('submit', e => {
+            e.preventDefault();
+          
+            const name = document.getElementById('carName').value;
+            const price = document.getElementById('carPrice').value;
+            const image = document.getElementById('carImage').value;
+          
+            const vendorEmail = localStorage.getItem('loggedInVendor');
+            if (!vendorEmail) {
+              alert('Please log in as a vendor first.');
+              return;
+            }
+          
+            const carData = { name, price, image };
+            const carListKey = `cars_${vendorEmail}`;
+            const existingCars = JSON.parse(localStorage.getItem(carListKey)) || [];
+          
+            existingCars.push(carData);
+            localStorage.setItem(carListKey, JSON.stringify(existingCars));
+          
+            document.getElementById('addCarForm').reset();
+            displayVendorCars(); // Refresh UI
+          });
+
+          function displayVendorCars() {
+            const vendorEmail = localStorage.getItem('loggedInVendor');
+            const carListKey = `cars_${vendorEmail}`;
+            const cars = JSON.parse(localStorage.getItem(carListKey)) || [];
+          
+            const carList = document.getElementById('carList');
+            carList.innerHTML = '';
+          
+            cars.forEach((car, index) => {
+              const carCard = `
+                <div class="car-card" data-index="${index}">
+                  <img src="${car.image}" alt="${car.name}">
+                  <h3>${car.name}</h3>
+                  <p>₹${car.price}</p>
+                  <button onclick="editCar(${index})">Edit</button>
+                  <button onclick="deleteCar(${index})">Delete</button>
+                </div>
+              `;
+              carList.innerHTML += carCard;
+            });
+          }
+
+          function deleteCar(index) {
+            const vendorEmail = localStorage.getItem('loggedInVendor');
+            const carListKey = `cars_${vendorEmail}`;
+            const cars = JSON.parse(localStorage.getItem(carListKey)) || [];
+          
+            cars.splice(index, 1); // Remove car
+            localStorage.setItem(carListKey, JSON.stringify(cars));
+            displayVendorCars(); // Refresh UI
+          }
+          
+          function editCar(index) {
+            const vendorEmail = localStorage.getItem('loggedInVendor');
+            const carListKey = `cars_${vendorEmail}`;
+            const cars = JSON.parse(localStorage.getItem(carListKey)) || [];
+            const car = cars[index];
+          
+            const newName = prompt("Edit Car Name:", car.name);
+            const newPrice = prompt("Edit Car Price:", car.price);
+            const newImage = prompt("Edit Image URL:", car.image);
+          
+            if (newName && newPrice && newImage) {
+              cars[index] = { name: newName, price: newPrice, image: newImage };
+              localStorage.setItem(carListKey, JSON.stringify(cars));
+              displayVendorCars();
+            }
+          }
+          window.addEventListener('load', displayVendorCars);
+
+          
+    </script>
+</body>
+</html>

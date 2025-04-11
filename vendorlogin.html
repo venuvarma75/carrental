@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vendor Login / Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+      background-image: url(https://png.pngtree.com/background/20230512/original/pngtree-beautiful-nature-park-way-background-picture-image_2502984.jpg)
+    }
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+    }
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #0a74da;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .message {
+      margin-top: 10px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <!-- <h2>Vendor Signup</h2>
+  <form id="vendorSignupForm">
+    <input type="text" id="signupName" placeholder="Name" required />
+    <input type="email" id="signupEmail" placeholder="Email" required />
+    <input type="password" id="signupPassword" placeholder="Password" required />
+    <button type="submit">Sign Up</button>
+  </form> -->
+
+  <h2>Vendor Login</h2>
+  <form id="vendorLoginForm">
+    <input type="email" id="loginEmail" placeholder="Email" required />
+    <input type="password" id="loginPassword" placeholder="Password" required />
+    <button type="submit">
+        <a href="./dashboartd.html"></a>Log In</button>
+  </form>
+
+  <div class="message" id="message"></div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC5uIMYcqjfXwu-tbH5-63JJinuQUI-cAI",
+    authDomain: "vendor-log-in-ea8ab.firebaseapp.com",
+    projectId: "vendor-log-in-ea8ab",
+    storageBucket: "vendor-log-in-ea8ab.appspot.com",
+    messagingSenderId: "569870776163",
+    appId: "1:569870776163:web:9b64895e1d96927a9e0556"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Vendor Signup
+  /*document.getElementById('vendorSignupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName: name });
+      document.getElementById('message').textContent = "Signup successful! Please log in.";
+      document.getElementById('vendorSignupForm').reset();
+    } catch (error) {
+      alert("Signup failed: " + error.message);
+    }
+  });*/
+
+  // Vendor Login
+  document.getElementById('vendorLoginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log(user.uid)
+      alert("Login successful! Welcome, " + (user.displayName || "Vendor"));
+      window.location.href = "vend dashboard.html"; // redirect to dashboard
+    } catch (error) {
+      alert("Login failed: " + error.message);
+    }
+  });
+
+  async function postVendorToLocalDB(name, email, uid) {
+    try {
+      const vendor = {
+        name,
+        email,
+        uid
+      };
+  
+      const res = await fetch("http://localhost:3000/vendors", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(vendor)
+      });
+  
+      if (res.ok) {
+        console.log("Vendor saved to local DB.");
+      } else {
+        console.error("Failed to save vendor to DB.");
+      }
+    } catch (error) {
+      console.error("Error posting vendor to local DB:", error);
+    }
+  }
+  
+
+  /*document.getElementById('vendorLoginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+  
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const uid = user.uid;
+  
+      alert("Login successful! Welcome, " + (user.displayName || "Vendor"));
+  
+      // Get selected cars from localStorage
+      const selectedCars = JSON.parse(localStorage.getItem("selectedCars")) || [];
+  
+      // Create payload to send
+      const payload = {
+        vendorId: uid,
+        cars: selectedCars
+      };
+  
+      // Send to JSON Server
+      await fetch("http://localhost:3000/vendorCars", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+  
+      alert("Selected cars sent to server!");
+      // Optionally clear localStorage
+      localStorage.removeItem("selectedCars");
+  
+      // Redirect to dashboard
+      // window.location.href = "vend_dashboard.html";
+  
+    } catch (error) {
+      alert("Login failed: " + error.message);
+    }
+  });*/
+  
+</script>
+
+</body>
+</html>
