@@ -30,7 +30,7 @@
   <script>
     async function data() {
       try {
-        const res = await fetch("http://localhost:3000/cars");
+        const res = await fetch("https://carrental-h69m.onrender.com/cars");
         const cars = await res.json();
 
         const container = document.getElementById("carContainer");
