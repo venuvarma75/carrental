@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb'); /* You can replace with any preferred image */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      color: white;
+      padding-top: 30px;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    form#contactForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    form#contactForm input,
+    form#contactForm textarea,
+    form#contactForm button {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    form#contactForm textarea {
+      resize: vertical;
+      height: 100px;
+    }
+
+    form#contactForm button {
+      background-color: #0a74da;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form#contactForm button:hover {
+      background-color: #084e9e;
+    }
+  </style>
+</head>
+<body>
+  <h2>Contact Us</h2>
+  <form id="contactForm">
+    <input type="text" id="contactName" placeholder="Your Name" required />
+    <input type="email" id="contactEmail" placeholder="Your Email" required />
+    <input type="tel" id="contactPhone" placeholder="Your Phone Number" required />
+    <textarea id="contactMessage" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const phone = document.getElementById('contactPhone').value.trim();
+      const message = document.getElementById('contactMessage').value.trim();
+
+      if (name && email && phone && message) {
+        alert(`📩 Thank you, ${name}! Your message has been received. We’ll get back to you shortly.`);
+        this.reset();
+      } else {
+        alert("⚠️ Please fill in all the fields.");
+      }
+    });
+  </script>
+</body>
+</html>
+

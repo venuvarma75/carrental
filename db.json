@@ -148,25 +148,10 @@
       "userId": "user4422"
     },
     {
-      "vendorId": "12344",
-      "carName": "audi",
-      "imageUrl": "https://images.pexels.com/photos/63764/pexels-photo-63764.jpeg?cs=srgb&dl=car-cars-lamborghini-aventador-63764.jpg&fm=jpg",
-      "price": 3000000,
-      "id": 23
-    },
-    {
-      "vendorId": "12344",
-      "carName": "audi",
-      "imageUrl": "https://images.pexels.com/photos/63764/pexels-photo-63764.jpeg?cs=srgb&dl=car-cars-lamborghini-aventador-63764.jpg&fm=jpg",
-      "price": 3000000,
-      "id": 24
-    },
-    {
-      "vendorId": "445566",
-      "carName": "benz",
-      "imageUrl": "https://www.bing.com/images/search?view=detailV2&ccid=vmagHfgI&id=48A0E76A99761F1635D6DBCDBDFC53DEA9824B58&thid=OIP.vmagHfgIczsTWNvEWcvGPAHaEo&mediaurl=https%3a%2f%2fwww.hdwallpapers.in%2fdownload%2fmercedes_benz_sls_amg_hd-wide.jpg&exph=1920&expw=3072&q=benz+cars&simid=608018360553906982&FORM=IRPRST&ck=A8D7FDD21618DABE4E7C53B6FF167DAA&selectedIndex=2&itb=0",
-      "price": 500000,
-      "id": 25
+      "id": 23,
+      "name": "bmw",
+      "price": "6000/day",
+      "image":"https://i.pinimg.com/originals/49/73/5b/49735b38c27ca67787e201a8f4b0fd6d.jpg"
     }
-  ]
-}
+    ]
+  }

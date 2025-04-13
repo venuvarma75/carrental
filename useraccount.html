@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Signup and Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+      background-image:url(https://th.bing.com/th/id/OIP.NOH8bBZLrC_5WpwupOJNkwHaEX?rs=1&pid=ImgDetMain);
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+      margin-bottom: 30px;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #0a74da;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .message {
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>User Signup</h2>
+    <form id="userSignupForm">
+      <input type="text" id="userID" placeholder="User ID (e.g., U12345)" required />
+      <input type="text" id="userName" placeholder="Name" required />
+      <input type="email" id="userEmail" placeholder="Email" required />
+      <input type="password" id="userPassword" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <h2>User Login</h2>
+    <form id="userLoginForm">
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button type="submit">Log In</button>
+    </form>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    // Signup
+    document.getElementById('userSignupForm').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const userId = document.getElementById('userID').value;
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const password = document.getElementById('userPassword').value;
+
+      const userData = {
+        userId,
+        name,
+        email,
+        password
+      };
+
+      // Save user data
+      localStorage.setItem('user_' + email, JSON.stringify(userData));
+
+      document.getElementById('message').textContent = 'Signup successful! Please log in now.';
+      document.getElementById('userSignupForm').reset();
+    });
+
+    // Login
+    document.getElementById('userLoginForm').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      const storedUser = localStorage.getItem('user_' + email);
+      if (!storedUser) {
+        alert('User not found. Please sign up first.');
+        return;
+      }
+
+      const userData = JSON.parse(storedUser);
+      if (userData.password !== password) {
+        alert('Incorrect password. Try again.');
+        return;
+      }
+
+      // Login success
+      localStorage.setItem('loggedInUserEmail', email);
+      localStorage.setItem('loggedInUserID', userData.userId);
+      alert('Login successful!');
+      window.location.href = 'userdisplaycars.html';
+
+    });
+  </script>
+</body>
+</html>

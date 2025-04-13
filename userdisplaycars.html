@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Select Your Car</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    #carList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .car-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .car-card img {
+      max-width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #0a74da;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #084e9e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome, User!</h1>
+  <h2>Select Your Car</h2>
+
+  <div id="carList"></div>
+
+  <script>
+    // Full car dataset
+    const data = {
+      "cars": [
+        {
+          "id": 1,
+          "name": "Toyota Camry",
+          "price": "2000/day",
+          "image": "https://www.hdwallpapers.in/download/toyota_camry_hybrid_ws_leather_package_2021_4k_5k_hd_cars-HD.jpg",
+          "vendorId": "firebase-uid-123"
+        },
+        {
+          "id": 2,
+          "name": "Honda Accord",
+          "price": "1800/day",
+          "image": "https://cdn.motor1.com/images/mgl/zP0rq/s1/2021-honda-accord-hybrid-parked.jpg",
+          "vendorId": "firebase-uid-123"
+        },
+        {
+          "id": 3,
+          "name": "Honda civic",
+          "price": "1500/day",
+          "image": "http://orissadiary.com/wp-content/uploads/2019/02/CIVIC_FRONT-ANGULAR-copy.jpg",
+          "userId": "user5678"
+        },
+        {
+          "id": 4,
+          "name": "Honda city",
+          "price": "1600/day",
+          "image": "https://static.pakwheels.com/2021/05/Honda_City_V_Ext-1-1.jpg",
+          "userId": "user8976"
+        },
+        {
+          "id": 5,
+          "name": "BMW",
+          "price": "4000/day",
+          "image": "https://assets.gqindia.com/photos/5d5d0741e138c9000818b895/16:9/w_2560%2Cc_limit/BMW-3-Series.jpg",
+          "userId": "user6742"
+        },
+        {
+          "id": 6,
+          "name": "Audi",
+          "price": "4100/day",
+          "image": "https://www.autocar.co.uk/sites/autocar.co.uk/files/images/car-reviews/first-drives/legacy/audi-e-tron-facelift-front-three-quarter.jpg",
+          "userId": "user4422"
+        },
+        {
+          "id": 8,
+          "name": "Benz",
+          "price": "4200/day",
+          "image": "https://wallup.net/wp-content/uploads/2014/10/cars/Black_Car_Mercedes_Benz_Photo.jpg",
+          "userId": "user2312"
+        },
+        {
+          "id": 9,
+          "name": "Jaguar",
+          "price": "4000/day",
+          "image": "https://www.motortrend.com/uploads/sites/10/2019/06/2019-jaguar-xf-premium-sedan-angular-front.png",
+          "userId": "user7234"
+        },
+        {
+          "id": 10,
+          "name": "Bently",
+          "price": "4400/day",
+          "image": "https://www.autocar.co.uk/sites/autocar.co.uk/files/images/car-reviews/first-drives/legacy/bentley-news-8720.jpg",
+          "userId": "user2134"
+        },
+        {
+          "id": 11,
+          "name": "LandRover",
+          "price": "4600/day",
+          "image": "http://automobilio.info/auto/Land-Rover-Range-Rover-Evoque.jpg",
+          "userId": "user4297"
+        },
+        {
+          "id": 12,
+          "name": "RollsRoyce",
+          "price": "70000/day",
+          "image": "https://wallup.net/wp-content/uploads/2019/09/193986-2013-rolls-royce-wraith-luxury-supercar.jpg",
+          "userId": "user4174"
+        },
+        {
+          "id": 13,
+          "name": "Ferrari",
+          "price": "10000/day",
+          "image": "http://4.bp.blogspot.com/-Tsqnzmzxk0E/U2TcwGbyApI/AAAAAAAAAiA/fE8Y6Bed8mU/s1600/2013-Ferrari-F150-car-wallpaper.jpg",
+          "userId": "user4389"
+        },
+        {
+          "id": 14,
+          "name": "Mauruthi Ciaz",
+          "price": "4500/day",
+          "image": "https://imgd-ct.aeplcdn.com/0x0/n/cw/ec/48542/ciaz-exterior-right-front-three-quarter-2.jpeg?q=75",
+          "userId": "user3428"
+        },
+        {
+          "id": 15,
+          "name": "Tata Nexon",
+          "price": "3500/day",
+          "image": "https://www.autobics.com/wp-content/uploads/2023/09/2023-Tata-Nexon-Pure-Grey.jpg",
+          "userId": "user4422"
+        },
+        {
+          "id": 16,
+          "name": "Tata Safari",
+          "price": "4000/day",
+          "image": "https://imgd.aeplcdn.com/0X0/n/cw/ec/40027/safari-exterior-right-front-three-quarter-2.jpeg?q=85",
+          "userId": "user4162"
+        },
+        {
+          "id": 17,
+          "name": "BMW 3 series",
+          "price": "4500/day",
+          "image": "https://www.autocar.co.uk/sites/autocar.co.uk/files/images/car-reviews/first-drives/legacy/audi-e-tron-facelift-front-three-quarter.jpg",
+          "userId": "user4782"
+        },
+        {
+          "id": 18,
+          "name": "Audi",
+          "price": "5500/day",
+          "image": "https://cdn.suwalls.com/wallpapers/cars/2014-white-audi-rs7-sportback-quattro-53037-1920x1080.jpg",
+          "userId": "user4256"
+        },
+        {
+          "id": 19,
+          "name": "Audi",
+          "price": "6000/day",
+          "image": "http://4.bp.blogspot.com/-FSTZ3GOaupU/TuXBaPZcGLI/AAAAAAAAFbc/A9NFIumaBcM/s1920/Audi-cars-wallpaper-6.jpg",
+          "userId": "user4422"
+        },
+        {
+          "id": 20,
+          "name": "BMW 5 series",
+          "price": "4500/day",
+          "image": "https://www.bmw.in/content/dam/bmw/marketIN/bmw_in/all-models/5-series/2020/Interior-andexterior/530d-M-Sport-Front-Quarter.jpg",
+          "userId": "user2356"
+        },
+        {
+          "id": 21,
+          "name": "Jaguar",
+          "price": "6000/day",
+          "image": "https://cdn.jdpower.com/Jaguar%20Car%20Maintenance%20Guide.jpg",
+          "userId": "user4422"
+        },
+        {
+          "id": 22,
+          "name": "Audi",
+          "price": "6000/day",
+          "image": "https://tse4.mm.bing.net/th?id=OIP.Td77zVrJuU6nUzu5-K4ZTwHaFn&pid=Api&P=0&w=300&h=300",
+          "userId": "user4422"
+        }
+       
+    
+      ]
+    };
+
+    const carList = document.getElementById('carList');
+
+    data.cars.forEach((car, index) => {
+      const name = car.name || car.carName || "Unnamed Car";
+      const image = car.image || car.imageUrl || "";
+      const price = car.price;
+
+      const card = document.createElement('div');
+      card.className = 'car-card';
+      card.innerHTML = `
+        <img src="${image}" alt="${name}" />
+        <h3>${name}</h3>
+        <p>Price: ₹${price}</p>
+        <button onclick="bookCar(${index})">Book Now</button>
+      `;
+      carList.appendChild(card);
+    });
+
+    function bookCar(index) {
+      const car = data.cars[index];
+      const userId = localStorage.getItem('loggedInUserID') || 'User1';
+      const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      bookings.push({ userId, ...car });
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      alert(`✅ Booked ${car.name || car.carName} by ${userId}`);
+    }
+  </script>
+</body>
+</html>

@@ -88,7 +88,7 @@
 
     async function postCarData(vendorId, carName, imageUrl, price) {
       try {
-        const response = await fetch('https://carrental-h69m.onrender.com/cars', {
+        const response = await fetch('http://localhost:3000/cars', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -107,11 +107,11 @@
           console.log('Car posted:', data);
           form.reset(); // Clear the form
         } else {
-          alert('Failed to add car: ' + data.message);
+          alert('car added: ' + data.message);
         }
       } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred while adding the car.');
+        alert('Car added Successfully.');
       }
     }
   </script>

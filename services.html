@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Car Rental Service</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1602407294553-6d3d70e32db8');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      background-color: #222; /* fallback */
+    }
+
+    h2 {
+      text-align: center;
+      color: white;
+      padding-top: 30px;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      margin: 30px auto;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    }
+
+    form input,
+    form select,
+    form textarea,
+    form button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    form button {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Car Rental Service Form</h2>
+
+  <form id="rentalForm">
+    <input type="text" id="fullName" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email Address" required />
+    <input type="tel" id="phone" placeholder="Phone Number" required />
+    <select id="carType" required>
+      <option value="">Select Car Type</option>
+      <option value="Sedan">Sedan</option>
+      <option value="SUV">SUV</option>
+      <option value="Hatchback">Hatchback</option>
+      <option value="Luxury">Luxury</option>
+    </select>
+    <input type="date" id="pickupDate" required />
+    <input type="date" id="returnDate" required />
+    <textarea id="specialRequest" placeholder="Special Requests (optional)"></textarea>
+    <button type="submit">Request Car</button>
+  </form>
+
+  <script>
+    document.getElementById('rentalForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const carType = document.getElementById('carType').value;
+      const pickupDate = document.getElementById('pickupDate').value;
+      const returnDate = document.getElementById('returnDate').value;
+
+      if (name && email && phone && carType && pickupDate && returnDate) {
+        alert(`✅ Thank you, ${name}! Your ${carType} has been requested from ${pickupDate} to ${returnDate}. We will contact you shortly!`);
+        this.reset();
+      } else {
+        alert("⚠️ Please fill in all the required fields.");
+      }
+    });
+  </script>
+
+</body>
+</html>
