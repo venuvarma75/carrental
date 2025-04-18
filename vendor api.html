@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vendor Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+      background-image: url(https://static.vecteezy.com/system/resources/previews/013/951/373/large_2x/awesome-nature-landscape-beautiful-scene-with-high-tatra-mountain-peaks-stones-in-mountain-lake-calm-lake-water-reflection-colorful-sunset-sky-amazing-nature-background-autumn-adventure-hiking-photo.jpg);
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin-bottom: 30px;
+    }
+
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px;
+      width: 100%;
+      background-color: #0a74da;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #carList {
+      display: grid;
+      gap: 20px;
+    }
+
+    .car-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .car-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome, Vendor!</h1>
+
+  <div class="form-container">
+    <h2>Add Car</h2>
+    <form id="addCarForm">
+      <input type="text" id="carName" placeholder="Car Name" required>
+      <input type="number" id="carPrice" placeholder="Price" required>
+      <input type="url" id="carImage" placeholder="Image URL" required>
+      <button type="submit">Submit Details</button>
+    </form>
+  </div>
+
+  <h2>Your Cars</h2>
+  <div id="carList"></div>
+
+  <script>
+    function getVendorEmail() {
+      return localStorage.getItem("loggedInVendor");
+    }
+
+    function getVendorCars() {
+      const email = getVendorEmail();
+      const allCars = JSON.parse(localStorage.getItem("cars")) || [];
+      return allCars.filter(car => car.vendor === email);
+    }
+
+    function saveCars(cars) {
+      localStorage.setItem("cars", JSON.stringify(cars));
+    }
+
+    function displayVendorCars(){
+      const cars = getVendorCars();
+      const container = document.getElementById('carList');
+      container.innerHTML = '';
+
+      cars.forEach(car => {
+        container.innerHTML += `
+          <div class="car-card">
+            <img src="${car.image}" alt="${car.name}">
+            <h3>${car.name}</h3>
+            <p>₹${car.price}</p>
+            <button onclick="deleteCarById(${car.id})">Delete</button>
+          </div>
+        `;
+      });
+    }
+
+    function addCar(name, price, image) {
+      const email = getVendorEmail();
+      const allCars = JSON.parse(localStorage.getItem("cars")) || [];
+      const newCar = {
+        id: Date.now(),
+        name,
+        price,
+        image,
+        vendor: email
+      };
+      allCars.push(newCar);
+      saveCars(allCars);
+    }
+
+    function deleteCarById(id) {
+      let allCars = JSON.parse(localStorage.getItem("cars")) || [];
+      allCars = allCars.filter(car => car.id !== id);
+      saveCars(allCars);
+      displayVendorCars();
+    }
+
+    document.getElementById('addCarForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('carName').value;
+      const price = document.getElementById('carPrice').value;
+      const image = document.getElementById('carImage').value;
+
+      addCar(name, price, image);
+      document.getElementById('addCarForm').reset();
+      displayVendorCars();
+    });
+
+    window.onload = displayVendorCars;
+  </script>
+</body>
+</html>
