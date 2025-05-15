@@ -113,7 +113,7 @@
       alert("Login successful! Welcome, " + (user.displayName || "Vendor"));
       window.location.href = "vend dashboard.html"; // redirect to dashboard
     } catch (error) {
-      alert("Login Failed please Register");
+      alert("Login Failed please Register" + error.message);
     }
   });
 
