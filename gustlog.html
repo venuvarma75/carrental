@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vendor Guest Login</title>
+  <style>
+    #guest1{
+        display:flex;
+        justify-content:center;
+        align-items: center;
+       flex-direction: column;
+        padding:10px;
+        gap:20px;
+      }
+      #body{
+        background-image:url(http://wallpapercave.com/wp/UKHNrPD.jpg)
+
+      }
+      
+
+   #inde{
+    text-decoration: none;
+   }
+  </style>
+</head>
+<body  id="body">
+  
+  <h2><center>Guest Login</center></h2>
+  <div id="guest1">
+   <form id="GuestLoginForm"><br/>
+    <input type="name" placeholder="name"/> <br/>
+    <input type="email" id="loginEmail" placeholder="Email" required /><br/>
+    <input type="password" id="loginPassword" placeholder="Password" required /> <br/>
+    <button onClick="submit">Login</button>  
+
+    <br/>
+   <br/>
+
+
+ <button id="guest-login-button"> 
+    <a href="./indexx.html" id="inde">Continue as Guest</a></button> </form>
+ </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAuth, signInAnonymously, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC5uIMYcqjfXwu-tbH5-63JJinuQUI-cAI",
+    authDomain: "vendor-log-in-ea8ab.firebaseapp.com",
+    projectId: "vendor-log-in-ea8ab",
+    storageBucket: "vendor-log-in-ea8ab.firebasestorage.app",
+    messagingSenderId: "569870776163",
+    appId: "1:569870776163:web:9b64895e1d96927a9e0556"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // ✅ Handle email/password login
+  const loginForm = document.getElementById("GuestLoginForm");
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+      alert("Please enter email and password.");
+      return;
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed: " + error.message);
+    }
+  });
+
+  // ✅ Handle guest login
+  const handleGuestLogin = async () => {
+    try {
+      const userCredential = await signInAnonymously(auth);
+      const user = userCredential.user;
+
+      const guestData = {
+        fullName: "Guest User",
+        email: "guest@vendor.com",
+        phoneNumber: "9999999999",
+        age: "30",
+        profilePic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBb2P4yPPrTY_H7OpNzOPDL1-z8soSbx8vJg&s",
+        company: "Guest Rentals Inc.",
+        address: "Unknown Street, India",
+        hasUploadedDetails: false,
+        id: user.uid,
+      };
+
+      await setDoc(doc(db, "vendors", user.uid), guestData);
+      localStorage.setItem("vendorGuestData", JSON.stringify(guestData));
+      window.location.href = "dashboard.html";
+    } catch (error) {
+      console.error("Guest login failed:", error);
+      alert("Guest login failed. Please try again.");
+    }
+  };
+
+  document.getElementById("guest-login-button").addEventListener("click", handleGuestLogin);
+</script>
