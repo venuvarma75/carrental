@@ -5,38 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Car Ride Booking</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-image: url('https://images.unsplash.com/photo-1570129477492-45c003edd2be');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       min-height: 100vh;
-      background-color: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('https://www.pixelstalk.net/wp-content/uploads/2016/07/Desktop-cars-full-hd-wallpapers-1080p-download.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.65);
+      z-index: -1;
+      transition: background-color 0.5s ease;
+    }
+
+    body:hover::before {
+      background-color: rgba(255, 0, 0, 0.25);
+    }
+
+    .form-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     h2 {
-      color: #fff;
-      margin-top: 40px;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+      font-size: 32px;
+      margin-bottom: 20px;
     }
 
     form {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.97);
+      width: 100%;
       max-width: 450px;
-      width: 90%;
-      margin: 20px auto;
       padding: 25px;
-      border-radius: 12px;
+      border-radius: 15px;
       display: flex;
       flex-direction: column;
       gap: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    form:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
     }
 
     input, select, button {
@@ -44,6 +85,12 @@
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 8px;
+      transition: transform 0.4s ease, background-color 0.3s ease;
+    }
+
+    input:hover,
+    select:hover {
+      transform: rotateY(8deg);
     }
 
     button {
@@ -52,32 +99,47 @@
       font-weight: bold;
       border: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
 
     button:hover {
       background-color: #0056b3;
+      transform: rotateY(8deg) scale(1.03);
+    }
+
+    @media (max-width: 600px) {
+      h2 {
+        font-size: 24px;
+      }
+
+      form {
+        padding: 15px;
+      }
+
+      input, select, button {
+        font-size: 14px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h2>Book a Ride</h2>
-
-  <form id="rideForm">
-    <input type="text" id="name" placeholder="Your Name" required />
-    <input type="tel" id="phone" placeholder="Phone Number" required />
-    <input type="text" id="pickup" placeholder="Pickup Location" required />
-    <input type="text" id="drop" placeholder="Drop Location" required />
-    <select id="rideType" required>
-      <option value="">Select Ride Type</option>
-      <option value="Standard">Standard</option>
-      <option value="Premium">Premium</option>
-      <option value="SUV">SUV</option>
-    </select>
-    <input type="datetime-local" id="rideTime" required />
-    <button type="submit">Book Ride</button>
-  </form>
+  <div class="form-wrapper">
+    <h2>Book a Ride</h2>
+    <form id="rideForm">
+      <input type="text" id="name" placeholder="Your Name" required />
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+      <input type="text" id="pickup" placeholder="Pickup Location" required />
+      <input type="text" id="drop" placeholder="Drop Location" required />
+      <select id="rideType" required>
+        <option value="">Select Ride Type</option>
+        <option value="Standard">Standard</option>
+        <option value="Premium">Premium</option>
+        <option value="SUV">SUV</option>
+      </select>
+      <input type="datetime-local" id="rideTime" required />
+      <button type="submit">Book Ride</button>
+    </form>
+  </div>
 
   <script>
     document.getElementById('rideForm').addEventListener('submit', function(e) {
@@ -91,10 +153,10 @@
       const rideTime = document.getElementById('rideTime').value;
 
       if (name && phone && pickup && drop && rideType && rideTime) {
-        alert(`🚘 Ride booked successfully!\n\n👤 Name: ${name}\n📞 Phone: ${phone}\n📍 From: ${pickup}\n📍 To: ${drop}\n🚗 Type: ${rideType}\n🕒 Time: ${rideTime}`);
+        alert(` Ride booked successfully!\n\n Name: ${name}\n Phone: ${phone}\n From: ${pickup}\n To: ${drop}\n Type: ${rideType}\n Time: ${rideTime}`);
         this.reset();
       } else {
-        alert("⚠️ Please fill in all fields.");
+        alert(" Please fill in all fields.");
       }
     });
   </script>
