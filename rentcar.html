@@ -1,99 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Car for Rent</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        min-height: 100vh;
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Blurred Background Image using ::before */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(8px);
+      z-index: -1;
+      animation: zoomIn 15s ease-in-out infinite alternate;
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(1);
       }
-  
-      h2 {
-        text-align: center;
-        color: white;
-        padding-top: 30px;
+      100% {
+        transform: scale(1.1);
       }
-  
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-width: 400px;
-        margin: 40px auto;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 10px;
+    }
+
+    h2 {
+      text-align: center;
+      color: white;
+      padding-top: 30px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
       }
-  
-      form input, form button {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-  
-      form button {
-        background-color: #4CAF50;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 10px;
+      animation: fadeIn 1.2s ease-in-out;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
       }
-  
-      form button:hover {
-        background-color: #45a049;
+      to {
+        opacity: 1;
+        transform: scale(1);
       }
-    </style>
+    }
+
+    form input, form button {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+form button {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #333; /* dark gray on hover */
+}
+
+    
+  </style>
 </head>
 <body>
-  
-    
 
+  <h2>Add Your Car for Rent</h2>
+  <form id="carForm">
+    <input type="text" id="carName" placeholder="Car Name" required />
+    <input type="text" id="carPrice" placeholder="Price (e.g., 2500/day)" required />
+    <input type="text" id="carImage" placeholder="Image URL" required />
+    <button type="submit">Add Car</button>
+  </form>
 
-<h2>Add Your Car for Rent</h2>
-<form id="carForm">
-  <input type="text" id="carName" placeholder="Car Name" required />
-  <input type="text" id="carPrice" placeholder="Price (e.g., 2500/day)" required />
-  <input type="text" id="carImage" placeholder="Image URL" required />
-  <button type="submit">Add Car</button>
-</form>
-<script>
-      
+  <script>
     document.getElementById('carForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-      
-        const carName = document.getElementById('carName').value.trim();
-        const carPrice = document.getElementById('carPrice').value.trim();
-        const carImage = document.getElementById('carImage').value.trim();
-        const userId = localStorage.getItem('loggedInUserID') || 'user_custom';
-      
-        const newCar = {
-          id: Date.now(),
-          name: carName,
-          price: carPrice,
-          image: carImage,
-          userId: userId
-        };
-      
-        // Save to localStorage
-        const existingCars = JSON.parse(localStorage.getItem('userCars') || '[]');
-        existingCars.push(newCar);
-        localStorage.setItem('userCars', JSON.stringify(existingCars));
-      
-        alert('🚗 Your car has been added for rent!');
-        location.reload(); // reload page to update the UI
-      });
-      
+      e.preventDefault();
 
-    
+      const carName = document.getElementById('carName').value.trim();
+      const carPrice = document.getElementById('carPrice').value.trim();
+      const carImage = document.getElementById('carImage').value.trim();
+      const userId = localStorage.getItem('loggedInUserID') || 'user_custom';
+
+      const newCar = {
+        id: Date.now(),
+        name: carName,
+        price: carPrice,
+        image: carImage,
+        userId: userId
+      };
+
+      const existingCars = JSON.parse(localStorage.getItem('userCars') || '[]');
+      existingCars.push(newCar);
+      localStorage.setItem('userCars', JSON.stringify(existingCars));
+
+      alert('🚗 Your car has been added for rent!');
+      location.reload();
+    });
+
     function bookCar(index) {
       const car = allCars[index];
       const userId = localStorage.getItem('loggedInUserID') || 'User1';
@@ -102,8 +147,7 @@
       localStorage.setItem('bookings', JSON.stringify(bookings));
       alert(`✅ Booked ${car.name || car.carName} by ${userId}`);
     }
-    
-  
-</script>
+  </script>
+
 </body>
 </html>
