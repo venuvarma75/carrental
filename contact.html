@@ -1,77 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-      
-    body {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb'); /* You can replace with any preferred image */
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://wallpapercave.com/wp/wp5334691.jpg') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-wrapper {
+      background-color: white;
+      max-width: 500px;
+      width: 90%;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+      text-align: center;
     }
 
     h2 {
-      text-align: center;
-      color: white;
-      padding-top: 30px;
-      text-shadow: 1px 1px 2px #000;
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #111;
     }
 
-    form#contactForm {
+    form {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-width: 500px;
-      margin: 40px auto;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      gap: 15px;
     }
 
-    form#contactForm input,
-    form#contactForm textarea,
-    form#contactForm button {
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    input,
+    textarea,
+    button {
+      padding: 12px;
       font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: 0.3s ease;
     }
 
-    form#contactForm textarea {
+    input:focus,
+    textarea:focus {
+      border-color: #0a74da;
+      box-shadow: 0 0 8px #a3d4ff;
+    }
+
+    textarea {
       resize: vertical;
-      height: 100px;
+      min-height: 100px;
     }
 
-    form#contactForm button {
+    button {
       background-color: #0a74da;
       color: white;
+      font-weight: bold;
       border: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
 
-    form#contactForm button:hover {
+    button:hover {
       background-color: #084e9e;
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 600px) {
+      .form-wrapper {
+        padding: 20px;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 <body>
-  <h2>Contact Us</h2>
-  <form id="contactForm">
-    <input type="text" id="contactName" placeholder="Your Name" required />
-    <input type="email" id="contactEmail" placeholder="Your Email" required />
-    <input type="tel" id="contactPhone" placeholder="Your Phone Number" required />
-    <textarea id="contactMessage" placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
+
+  <div class="form-wrapper">
+    <h2>Contact Us</h2>
+    <form id="contactForm">
+      <input type="text" id="contactName" placeholder="Your Name" required />
+      <input type="email" id="contactEmail" placeholder="Your Email" required />
+      <input type="tel" id="contactPhone" placeholder="Your Phone Number" required />
+      <textarea id="contactMessage" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
 
   <script>
     document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -83,13 +112,39 @@
       const message = document.getElementById('contactMessage').value.trim();
 
       if (name && email && phone && message) {
-        alert(`📩 Thank you, ${name}! Your message has been received. We’ll get back to you shortly.`);
+        alert(` Thank you, ${name}! Your message has been received. We’ll get back to you shortly.`);
         this.reset();
       } else {
-        alert("⚠️ Please fill in all the fields.");
+        alert(" Please fill in all the fields.");
       }
     });
   </script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
